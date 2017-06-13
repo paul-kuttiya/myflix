@@ -17,7 +17,7 @@ end
 10.times do |n|
   Video.create(
     title: "dummy #{n + 1}",
-    category_id: Category.all.sample.id,
+    category: Category.all.sample,
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
     Maecenas posuere faucibus sapien vel aliquam. Aliquam at metus ipsum. 
     Integer a dignissim magna. In blandit venenatis elementum.",
