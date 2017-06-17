@@ -1,0 +1,16 @@
+
+[1mFrom:[0m /home/paul/Desktop/projects/myflix/app/controllers/users_controller.rb @ line 9 UsersController#create:
+
+     [1;34m8[0m: [32mdef[0m [1;34mcreate[0m
+ =>  [1;34m9[0m:   binding.pry
+    [1;34m10[0m:   @user = [1;34;4mUser[0m.new(params[[33m:user[0m])
+    [1;34m11[0m: 
+    [1;34m12[0m:   [32mif[0m @user.save
+    [1;34m13[0m:     session[[33m:user_id[0m] = @user.id
+    [1;34m14[0m:     flash[[33m:success[0m] = [31m[1;31m"[0m[31mWelcome to myfix #{@user.full_name}[0m[31m![1;31m"[0m[31m[0m
+    [1;34m15[0m:     redirect_to home_path
+    [1;34m16[0m:   [32melse[0m
+    [1;34m17[0m:     render [33m:new[0m
+    [1;34m18[0m:   [32mend[0m
+    [1;34m19[0m: [32mend[0m
+

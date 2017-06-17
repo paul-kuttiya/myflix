@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user].permit!)
+    @user = User.new(create_user)
 
     if @user.save
       session[:user_id] = @user.id
@@ -15,5 +15,10 @@ class UsersController < ApplicationController
     else
       render :new
     end
+  end
+
+  private
+  def create_user
+    params.require(:user).permit!
   end
 end
