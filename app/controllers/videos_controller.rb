@@ -7,6 +7,7 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
+    @review = Review.new #need for review form, showing errors
   end
 
   def search

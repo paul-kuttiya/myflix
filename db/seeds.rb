@@ -40,8 +40,8 @@ end
 
 200.times do
   Review.create(
-    user_id: User.all.map(&:id).sample,
-    video_id: Video.all.map(&:id).sample,
+    user: User.all.sample,
+    video: Video.all.sample,
     ratings: (1..5).to_a.sample,
     description: Faker::Lorem.paragraph(3)
   )
