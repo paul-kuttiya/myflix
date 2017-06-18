@@ -14,6 +14,15 @@ describe VideosController do
 
       expect(response).to redirect_to sign_in_path
     end
+
+    it 'has @video reviews array for auth users' do
+      session[:user_id] = Fabricate(:user).id
+      video = Fabricate(:video)
+      review1 = Fabricate(:review, video: video)
+      review2 = Fabricate(:review, video: video)
+      get :show, id: video.id
+      expect(assigns[:video].reviews).to eq([review2, review1])
+    end
   end
 
   describe "GET search" do

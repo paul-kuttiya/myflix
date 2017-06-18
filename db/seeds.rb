@@ -14,21 +14,37 @@ category.each do |cat|
   )
 end
 
-20.times do |n|
+20.times do
   Video.create(
-    title: "dummy #{n + 1}",
+    title: Faker::Lorem.words(2).join(" "),
     category: Category.all.sample,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-    Maecenas posuere faucibus sapien vel aliquam. Aliquam at metus ipsum. 
-    Integer a dignissim magna. In blandit venenatis elementum.",
+    description: Faker::Lorem.paragraph(2),
     small_cover: "/tmp/monk.jpg",
     large_cover: "/tmp/monk_large.jpg"
   )
-
-User.create(
-  email: 'example@email.com',
-  password: 'example'
-)
-
 end
 
+User.create(
+  full_name: 'admin',
+  email: 'admin@email.com',
+  password: 'admin'
+)
+
+20.times do
+  User.create(
+    full_name: Faker::Name.name,
+    email: Faker::Internet.email,
+    password: Faker::Internet.password
+  )
+end
+
+200.times do
+  Review.create(
+    user: User.all.sample,
+    video: Video.all.sample,
+    ratings: (1..5).to_a.sample,
+    description: Faker::Lorem.paragraph(3)
+  )
+
+Review.find(1).update(created_at: 4.days.ago)
+end
