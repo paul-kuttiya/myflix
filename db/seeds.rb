@@ -14,7 +14,7 @@ category.each do |cat|
   )
 end
 
-10.times do |n|
+20.times do |n|
   Video.create(
     title: "dummy #{n + 1}",
     category: Category.all.sample,
@@ -24,5 +24,11 @@ end
     small_cover: "/tmp/monk.jpg",
     large_cover: "/tmp/monk_large.jpg"
   )
+
+User.create(
+  email: 'example@email.com',
+  password: 'example'
+)
+
 end
 
