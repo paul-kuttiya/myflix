@@ -17,6 +17,6 @@ class QueueItem < ActiveRecord::Base
   end
 
   def increment_list_order
-    self.list_order = user.queue_items.size + 1
+    self.list_order = user.queue_items.size + 1 if user
   end
 end

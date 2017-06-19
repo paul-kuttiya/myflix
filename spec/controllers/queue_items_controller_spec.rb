@@ -95,4 +95,39 @@ describe QueueItemsController do
       end
     end
   end
+
+  describe "DELETE destroy" do
+    describe "non user" do
+      it "redirect to sign in page" do
+        queue_item = Fabricate(:queue_item)
+        delete :destroy, id: queue_item.id
+        expect(response).to redirect_to sign_in_path
+      end
+    end
+
+    describe "signed in user" do
+      let(:user) {Fabricate(:user)}
+      let(:video) {Fabricate(:video)}
+
+      before do
+        session[:user_id] = Fabricate(:user)
+      end
+
+      it "find @queue_item" do
+        queue_item = Fabricate(:queue_item, user: user, video_id: video.id)
+        delete :destroy, id: queue_item.id
+
+        expect(assigns[:queue_item]).to eq(queue_item)
+      end
+
+      it "removes queue item" do
+        video2 = Fabricate(:video)
+        queue_item = Fabricate(:queue_item, user: user, video_id: video.id)
+        queue_item2 = Fabricate(:queue_item, user: user, video_id: video2.id)
+        delete :destroy, id: queue_item.id
+
+        expect(QueueItem.where(user: user).count).to eq(1)
+      end
+    end
+  end
 end
