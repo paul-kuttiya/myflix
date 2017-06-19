@@ -8,8 +8,11 @@ class ReviewsController < ApplicationController
     if @review.save
       redirect_to @video
     else
-      #validates false and returns nil
-      #need reload to get all @video data again
+      #validates false and @review returns nil
+      #need reviews array to display existing reviews
+      #will get error for nil review in reviews arr, ie review.create_at ~> nil.created_at
+      #need reload to refresh instance, get rid of that @review in @video.reviews
+
       @video.reload
       render 'videos/show'
     end
