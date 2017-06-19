@@ -5,6 +5,8 @@ class QueueItem < ActiveRecord::Base
   delegate :title, to: :video, prefix: :video
   delegate :category, to: :video
 
+  before_save :increment_list_order
+
   def ratings
     review = video.reviews.find_by(user: user)
     review ? review.ratings : nil
@@ -12,5 +14,9 @@ class QueueItem < ActiveRecord::Base
 
   def category_name
     category.name
+  end
+
+  def increment_list_order
+    self.list_order = user.queue_items.size + 1
   end
 end
