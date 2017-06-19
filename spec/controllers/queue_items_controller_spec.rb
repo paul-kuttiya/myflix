@@ -77,14 +77,21 @@ describe QueueItemsController do
         queue_item2 = Fabricate(:queue_item, user: user, video_id: video2.id)
 
         post :create, video_id: video.id
-        post :create, video_id: video2.id
         
-        expect(User.find(user).queue_items).to match_array([queue_item1, queue_item2])
+        expect(User.find(user).queue_items).to match_array([queue_item2, queue_item1])
       end
 
       it "redirects to queue page" do
         post :create, video_id: video.id
         expect(response).to redirect_to my_queue_path
+      end
+
+      it "has list_order for queue" do
+        video2 = Fabricate(:video)
+        Fabricate(:queue_item, video_id: video2.id, user: user)
+        post :create, video_id: video.id
+
+        expect(QueueItem.second.list_order).to eq(2)
       end
     end
   end
