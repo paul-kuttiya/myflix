@@ -2,17 +2,18 @@ class QueueItemsController < ApplicationController
   before_action :require_user
 
   def index
-    @queue_items = QueueItem.where(user: current_user)
+    @queue_items = current_user.queue_items
   end
 
   def create
     @video = Video.find(params[:video_id])
     @queue_item = QueueItem.new(user: current_user, video_id: @video.id)
-
+    
     if existing_queue
       flash[:danger] = "Video already exists in queue!"
       redirect_to @video
     else
+      increment_list_order(@queue_item)
       @queue_item.save
       redirect_to my_queue_path
     end
@@ -21,10 +22,20 @@ class QueueItemsController < ApplicationController
   def destroy
     @queue_item = QueueItem.find(params[:id])
 
-    if @queue_item.destroy
-      update_list
-      redirect_to my_queue_path
+    @queue_item.destroy if current_user.queue_items.include?(@queue_item)
+    normalize_queue_position
+    redirect_to my_queue_path
+  end
+
+  def update_queue
+    begin
+      update_queue_item
+      normalize_queue_position
+    rescue ActiveRecord::RecordInvalid
+      flash[:danger] = "List order must be a number!"
     end
+
+    redirect_to my_queue_path
   end
 
   private
@@ -32,8 +43,23 @@ class QueueItemsController < ApplicationController
     current_user.queue_items.find_by(video_id: params[:video_id])
   end
 
-  def update_list
-    current_user.queue_items.where("list_order > ?", @queue_item.list_order)
-                .update_all("list_order = list_order - 1")
+  def increment_list_order(queue_item)
+    queue_item.list_order = current_user.queue_items.size + 1 if current_user
+  end
+
+  def update_queue_item
+    queues_arr = params[:queue_items]
+    ActiveRecord::Base.transaction do
+      queues_arr.each do |queue|
+        queue_item = QueueItem.find(queue["id"])
+        queue_item.update_attributes!(list_order: queue["list_order"]) if current_user == queue_item.user
+      end
+    end
+  end
+
+  def normalize_queue_position
+    current_user.queue_items.each_with_index do |queue, idx|
+      queue.update_attributes(list_order: idx + 1)
+    end
   end
 end

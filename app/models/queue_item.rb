@@ -2,10 +2,10 @@ class QueueItem < ActiveRecord::Base
   belongs_to :user
   belongs_to :video
 
+  validates_numericality_of :list_order, {only_integer: true}
+
   delegate :title, to: :video, prefix: :video
   delegate :category, to: :video
-
-  before_save :increment_list_order
 
   def ratings
     review = video.reviews.find_by(user: user)
@@ -14,9 +14,5 @@ class QueueItem < ActiveRecord::Base
 
   def category_name
     category.name
-  end
-
-  def increment_list_order
-    self.list_order = user.queue_items.size + 1 if user
   end
 end
