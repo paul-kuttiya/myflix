@@ -23,14 +23,14 @@ class QueueItemsController < ApplicationController
     @queue_item = QueueItem.find(params[:id])
 
     @queue_item.destroy if current_user.queue_items.include?(@queue_item)
-    normalize_queue_position
+    current_user.normalize_queue_position
     redirect_to my_queue_path
   end
 
   def update_queue
     begin
       update_queue_item
-      normalize_queue_position
+      current_user.normalize_queue_position
     rescue ActiveRecord::RecordInvalid
       flash[:danger] = "List order must be a number!"
     end
@@ -54,12 +54,6 @@ class QueueItemsController < ApplicationController
         queue_item = QueueItem.find(queue["id"])
         queue_item.update_attributes!(list_order: queue["list_order"]) if current_user == queue_item.user
       end
-    end
-  end
-
-  def normalize_queue_position
-    current_user.queue_items.each_with_index do |queue, idx|
-      queue.update_attributes(list_order: idx + 1)
     end
   end
 end
