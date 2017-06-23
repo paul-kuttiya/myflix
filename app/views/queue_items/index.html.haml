@@ -21,7 +21,7 @@
                   %td= text_field_tag "queue_items[][list_order]", queue.list_order, class: "form-control"
                   %td= link_to "#{queue.video_title}", video_path(queue.video)
                   %td= button_to "Play", nil, class: "btn btn-default"
-                  %td= queue.ratings
+                  %td= select_tag "queue_items[][ratings]", options_for_video_review(queue.ratings), include_blank: true
                   %td= link_to "#{queue.category_name}", queue.category
                   %td
                     = link_to queue, method: "delete" do

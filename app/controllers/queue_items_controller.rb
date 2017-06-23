@@ -52,7 +52,7 @@ class QueueItemsController < ApplicationController
     ActiveRecord::Base.transaction do
       queues_arr.each do |queue|
         queue_item = QueueItem.find(queue["id"])
-        queue_item.update_attributes!(list_order: queue["list_order"]) if current_user == queue_item.user
+        queue_item.update_attributes!(list_order: queue["list_order"], ratings: queue["ratings"]) if current_user == queue_item.user
       end
     end
   end

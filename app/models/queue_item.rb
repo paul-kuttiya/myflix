@@ -8,11 +8,25 @@ class QueueItem < ActiveRecord::Base
   delegate :category, to: :video
 
   def ratings
-    review = video.reviews.find_by(user: user)
     review ? review.ratings : nil
+  end
+
+  def ratings=(new_ratings)
+    if review
+      review.update_column(:ratings, new_ratings)
+      return
+    end
+
+    review = Review.new(user: user, video: video, ratings: new_ratings)
+    review.save(validate: false)
   end
 
   def category_name
     category.name
+  end
+
+  private
+  def review
+    @review ||= Review.find_by(user: user, video: video)
   end
 end

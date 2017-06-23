@@ -40,4 +40,30 @@ describe QueueItem do
       expect(queue_item.category_name).to eq("action")
     end
   end
+
+  describe "#ratings=" do
+    it "creates review ratings if not presented" do
+      user = Fabricate(:user)
+      video = Fabricate(:video)
+      queue_item = Fabricate(:queue_item, user: user, video: video)
+      queue_item.ratings = 3
+      expect(Review.first.ratings).to eq(3)
+    end
+
+    it "update review ratings if already presented" do
+      user = Fabricate(:user)
+      video = Fabricate(:video)
+      queue_item = Fabricate(:queue_item, user: user, video: video, ratings: 3)
+      queue_item.ratings = 1
+      expect(Review.first.ratings).to eq(1)
+    end
+
+    it "clears review ratings if already presented" do
+      user = Fabricate(:user)
+      video = Fabricate(:video)
+      queue_item = Fabricate(:queue_item, user: user, video: video, ratings: 3)
+      queue_item.ratings = nil
+      expect(Review.first.ratings).to eq(nil)
+    end
+  end
 end
