@@ -8,11 +8,8 @@ describe VideosController do
       expect(assigns[:video]).to eq(video)
     end
 
-    it 'redirects to sign in path for unauthenticated user' do
-      video = Fabricate(:video)
-      get 'show', id: video.id
-
-      expect(response).to redirect_to sign_in_path
+    it_behaves_like "requires sign in" do
+      let(:action) {get 'show', id: 3}
     end
 
     it 'has @video reviews array for auth users' do
@@ -34,10 +31,8 @@ describe VideosController do
       expect(assigns[:videos]).to eq([video])
     end
 
-    it 'redirects for unauthenticated users' do
-      get :search, query: "video"
-
-      expect(response).to redirect_to sign_in_path
+    it_behaves_like "requires sign in" do
+      let(:action) {get :search, query: "video"}
     end
   end
 end
