@@ -11,6 +11,7 @@ class Video < ActiveRecord::Base
 
   def average_ratings
     ratings = self.reviews.map(&:ratings)
+    return false if ratings.size == 0
     (ratings.inject(:+) / ratings.size).round(1)
   end
 end
