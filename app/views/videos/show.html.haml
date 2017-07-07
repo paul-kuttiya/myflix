@@ -34,7 +34,7 @@
             %li.row
               .col-sm-2
                 %span= "Rating: #{review.ratings} / 5"
-                %p= link_to "by #{review.user.full_name}, "#"
+                %p= link_to "by #{review.user.full_name}", review.user
               .col-sm-8
                 %p= "#{time_ago_in_words(review.created_at)} ago."
                 %p= review.description
