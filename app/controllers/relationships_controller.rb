@@ -18,7 +18,7 @@ class RelationshipsController < ApplicationController
     Relationship.create(
       leader_id: params[:leader_id], 
       follower: current_user
-    ) if !(current_user.follow?(leader) || current_user == leader)
+    ) if current_user.can_follow?(leader)
 
     redirect_to people_path
   end
