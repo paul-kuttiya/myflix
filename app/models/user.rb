@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
-  has_many :reviews
+  has_many :reviews, -> { order(created_at: :desc) }
   has_many :queue_items, -> { order(list_order: :asc) }
+  has_many :following_relationships, class_name: "Relationship", foreign_key: "follower_id"
+  has_many :leading_relationships, class_name: "Relationship", foreign_key: "leader_id"
 
   has_secure_password validation: false
   validates_presence_of :email, :password, :full_name

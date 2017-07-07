@@ -14,14 +14,21 @@ category.each do |cat|
   )
 end
 
+# 20.times do
+#   Video.create(
+#     title: Faker::Lorem.words(2).join(" "),
+#     category: Category.all.sample,
+#     description: Faker::Lorem.paragraph(2),
+#     small_cover: "/tmp/monk.jpg",
+#     large_cover: "/tmp/monk_large.jpg"
+#   )
+# end
+
 20.times do
-  Video.create(
-    title: Faker::Lorem.words(2).join(" "),
-    category: Category.all.sample,
-    description: Faker::Lorem.paragraph(2),
-    small_cover: "/tmp/monk.jpg",
-    large_cover: "/tmp/monk_large.jpg"
-  )
+  Fabricate(:video, 
+  category: Category.all.sample, 
+  small_cover: "/tmp/monk.jpg", 
+  large_cover: "/tmp/monk_large.jpg")
 end
 
 User.create(
@@ -30,21 +37,48 @@ User.create(
   password: 'admin'
 )
 
+# 20.times do
+#   User.create(
+#     full_name: Faker::Name.name,
+#     email: Faker::Internet.email,
+#     password: Faker::Internet.password
+#   )
+# end
+
 20.times do
-  User.create(
-    full_name: Faker::Name.name,
-    email: Faker::Internet.email,
-    password: Faker::Internet.password
-  )
+  Fabricate(:user)
 end
 
-200.times do
-  Review.create(
-    user: User.all.sample,
-    video: Video.all.sample,
-    ratings: (1..5).to_a.sample,
-    description: Faker::Lorem.paragraph(3)
-  )
+# 200.times do
+#   Review.create(
+#     user: User.all.sample,
+#     video: Video.all.sample,
+#     ratings: (1..5).to_a.sample,
+#     description: Faker::Lorem.paragraph(3)
+#   )
 
-Review.find(1).update(created_at: 4.days.ago)
+# Review.find(1).update(created_at: 4.days.ago)
+# end
+
+200.times do
+  Fabricate(:review, user: User.all.sample, video: Video.all.sample)
+
+  Review.find(1).update(created_at: 4.days.ago)
+end
+
+User.all.each do |u|
+  10.times do |n|
+    QueueItem.create(
+      list_order: n,
+      video: Video.all.sample,
+      user: u,
+    )
+  end  
+end
+
+100.times do |n|
+  Relationship.create(
+    leader: User.all.sample,
+    follower: User.all.sample
+  )
 end
