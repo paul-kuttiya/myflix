@@ -47,4 +47,45 @@ describe RelationshipsController do
       end
     end
   end
+
+  describe "POST create" do
+    it_behaves_like "requires sign in" do
+      let(:action) { post :create, leader_id: 1 }
+    end
+
+    context "signed in user" do 
+      let(:user) { Fabricate(:user) }
+
+      before do
+        set_current_user(user)
+      end
+      
+      it "redirects to people page" do
+        leader = Fabricate(:user)
+        
+        post :create, { leader_id: leader.id }
+        expect(response).to redirect_to people_path
+      end
+
+      it "creates relationship for a user to follow leader" do
+        leader = Fabricate(:user)
+
+        post :create, { leader_id: leader.id }
+        expect(Relationship.count).to eq 1
+      end
+
+      it "does not follow the same user twice" do
+        leader = Fabricate(:user)
+        relationship = Fabricate(:relationship, leader: leader, follower: user)
+
+        post :create, { leader_id: leader.id }
+        expect(Relationship.count).to eq 1
+      end
+
+      it "does not follow itself" do
+        post :create, { leader_id: user.id }
+        expect(Relationship.count).to eq 0
+      end
+    end
+  end
 end

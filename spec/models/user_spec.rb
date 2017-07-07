@@ -23,5 +23,15 @@ describe User do
       expect(user.already_queued?(video)).to eq(false)
     end
   end
+
+  describe "#follow?" do
+    it "returns true if already a follower" do
+      user = Fabricate(:user)
+      leader = Fabricate(:user)
+      relationship = Fabricate(:relationship, leader: leader, follower: user)
+
+      expect(user.follow?(leader)).to eq true
+    end
+  end  
 end
 

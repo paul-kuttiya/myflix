@@ -17,4 +17,12 @@ class User < ActiveRecord::Base
   def already_queued?(video)
     self.queue_items.map(&:video).include?(video)
   end
+
+  def follow?(another_user)
+    self.following_relationships.map(&:leader).include?(another_user)
+  end
+
+  def can_follow?(another_user)
+    !(self.follow?(another_user) || (self == another_user))
+  end
 end
