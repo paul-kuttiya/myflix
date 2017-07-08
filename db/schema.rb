@@ -61,4 +61,5 @@ ActiveRecord::Schema.define(version: 20170707030156) do
     t.datetime "created_at"
     t.integer  "category_id"
   end
+
 end

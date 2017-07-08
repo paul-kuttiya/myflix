@@ -120,7 +120,7 @@ GEM
     minitest (5.10.2)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
-    pg (0.21.0)
+    pg (0.20.0)
     polyglot (0.3.5)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -250,7 +250,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   letter_opener
-  pg
+  pg (= 0.20)
   pry
   pry-nav
   puma
@@ -265,3 +265,9 @@ DEPENDENCIES
   uglifier
   vcr (= 2.9.3)
   webmock
+
+RUBY VERSION
+   ruby 2.2.7p470
+
+BUNDLED WITH
+   1.15.1
