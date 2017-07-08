@@ -13,26 +13,34 @@ gem 'bootstrap_form'
 gem 'bcrypt'
 gem 'fabrication'
 gem 'faker'
+gem 'figaro'
+gem 'sidekiq', '4.2.10'
 
 group :development do
-  gem 'thin'
-  gem "better_errors"
-  gem "binding_of_caller"
   gem "awesome_print"
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'foreman'
+  gem 'letter_opener'
+  gem 'thin'
 end
 
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'
-  gem 'rspec-rails', '2.99'
+  gem 'rspec-rails', '~> 3.5'
 end
 
 group :test do
+  gem 'capybara'
+  gem 'capybara-email'
+  gem 'chromedriver-helper'
   gem 'database_cleaner', '1.4.1'
+  gem 'launchy'
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers', '2.7.0'
   gem 'vcr', '2.9.3'
-  gem 'capybara'
-  gem 'launchy'
+  gem 'webmock'
 end
 
 group :development, :staging, :production do
