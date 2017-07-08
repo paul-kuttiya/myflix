@@ -53,7 +53,7 @@ describe UsersController do
       end
       
       it "shows error" do
-        errors = assigns[:user].errors.full_messages.size
+        errors = assigns[:user].errors.full_messages.length
         expect(errors).not_to be(0)
       end
     end

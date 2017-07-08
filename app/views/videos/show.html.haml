@@ -27,7 +27,7 @@
           = link_to "Cancel", @video
 
       %header
-        %h3= "User Reviews (#{@video.reviews.size})"
+        %h3= "User Reviews (#{@video.reviews.length})"
       %ul
         - @video.reviews.each do |review|
           %article.review

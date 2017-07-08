@@ -4,7 +4,7 @@
       %article
         %header
           %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest('knwang@gmail.com'.downcase)}?s=40")
-          %h2 #{@user.full_name}'s video collections (#{@user.queue_items.size})
+          %h2 #{@user.full_name}'s video collections (#{@user.queue_items.length})
           = link_to "Follow", relationships_path(leader_id: @user.id), 
           class: "btn btn-default", 
           method: 'post' if current_user.can_follow?(@user)
@@ -25,7 +25,7 @@
   .row
     .col-sm-10.col-sm-offset-1
       %header
-        %h3 #{@user.full_name}'s Reviews (#{@user.reviews.size})
+        %h3 #{@user.full_name}'s Reviews (#{@user.reviews.length})
       %ul
         - @user.reviews.each do |review|
           %article.review

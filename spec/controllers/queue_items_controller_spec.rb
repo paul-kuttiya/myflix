@@ -112,7 +112,7 @@ describe QueueItemsController do
         queue_item = Fabricate(:queue_item, user: alice)
         
         delete :destroy, id: queue_item.id
-        expect(QueueItem.all.size).to eq(0)
+        expect(QueueItem.all.length).to eq(0)
       end
 
       it "normalize queue items after remove one" do

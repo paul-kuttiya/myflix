@@ -44,7 +44,7 @@ class QueueItemsController < ApplicationController
   end
 
   def increment_list_order(queue_item)
-    queue_item.list_order = current_user.queue_items.size + 1 if current_user
+    queue_item.list_order = current_user.queue_items.length + 1 if current_user
   end
 
   def update_queue_item

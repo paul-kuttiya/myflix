@@ -13,7 +13,7 @@ describe Category do
       south_park = Video.create(title: "south park", description: "comedy cartoon", category: comedy)
       house = Video.create(title: "house", description: "house MD", category: comedy)
 
-      expect(comedy.recent_videos.size).to eq(2)
+      expect(comedy.recent_videos.length).to eq(2)
     end
 
     it "returns array of recent 6 videos if has more than 6 videos." do
@@ -21,7 +21,7 @@ describe Category do
 
       7.times { |n| Video.create(title: "south park #{n}", description: "comedy cartoon", category: comedy) }
 
-      expect(comedy.recent_videos.size).to eq(6)
+      expect(comedy.recent_videos.length).to eq(6)
     end
 
     it "returns videos in DESC order." do
