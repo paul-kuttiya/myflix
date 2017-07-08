@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(create_user)
 
     if @user.save
-      # AppMailer.send_welcome_email(@user).deliver
+      AppMailer.send_welcome_email(@user).deliver
       session[:user_id] = @user.id
       flash[:success] = "Welcome to myfix #{@user.full_name}!"
       redirect_to home_path
