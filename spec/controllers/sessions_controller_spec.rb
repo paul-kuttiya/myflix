@@ -62,7 +62,7 @@ describe SessionsController do
       end
 
       it "shows sign out message" do
-        expect(flash[:notice]).not_to be_blank
+        expect(flash[:danger]).not_to be_blank
       end
 
       it "redirects to root" do
