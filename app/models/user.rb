@@ -5,10 +5,8 @@ class User < ActiveRecord::Base
   has_many :leading_relationships, class_name: "Relationship", foreign_key: "leader_id"
 
   has_secure_password validation: false
-  validates_presence_of :email, :password, :full_name, on: [:create]
+  validates_presence_of :email, :password, :full_name
   validates_uniqueness_of :email
-
-  before_create :generate_token
 
   def normalize_queue_position
     self.queue_items.each_with_index do |queue, idx|
@@ -28,14 +26,15 @@ class User < ActiveRecord::Base
     !(self.follow?(another_user) || (self == another_user))
   end
 
-  def to_param
-    token
+  def self.get_token
+    generate_token
   end
 
-  def generate_token
-    self.token = loop do
+  private
+  def self.generate_token
+    token = loop do
       random_token = SecureRandom.urlsafe_base64(nil, false)
-      break random_token unless self.class.exists?(token: random_token)
+      break random_token unless self.exists?(token: random_token)
     end
   end
 end
