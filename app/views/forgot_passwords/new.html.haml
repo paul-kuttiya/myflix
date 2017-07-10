@@ -6,7 +6,7 @@
           %h1 Forgot Password?
           %p We will send you an email with a link that you can use to reset your password.
         .form-group
-          = label_tag "Email Address"
+          = label_tag :email, "Email Address"
           .row
             .col-sm-4
               = email_field_tag :email, nil, class: "form-control"
