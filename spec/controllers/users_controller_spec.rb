@@ -22,6 +22,34 @@ describe UsersController do
         expect(User.count).to eq(1)
       end
 
+      context "invited user" do
+        let(:inviter) { Fabricate(:user) }
+        let(:invitation) { Fabricate(:invitation, 
+        recipient_email: 'joe@example.com', 
+        inviter: inviter) }
+
+        before do
+          post :create, 
+          user: {email: 'joe@example.com', password: 'password', full_name: 'joe dow'}, 
+          invitation_token: invitation.token
+        end
+
+        it "sets invited user to follow inviter" do
+          invited_user = User.find_by(email: 'joe@example.com')
+          expect(invited_user.follow?(inviter)).to eq true
+        end
+      
+        it "sets inviter to follow invited user" do
+          invited_user = User.find_by(email: 'joe@example.com')
+          expect(inviter.follow?(invited_user)).to eq true
+        end
+        
+        it "deletes token" do
+          invitation.reload
+          expect(invitation.token).to be_nil
+        end
+      end
+    
       it "stored user in session" do
         expect(session[:user_id]).not_to be_nil
       end
@@ -75,24 +103,53 @@ describe UsersController do
 
       it "does not send email with invalid inputs" do
         post :create, user: { email: 'abc@gmail.com' }
-        expect(ActionMailer::Base.deliveries).to be_empty   
+        expect(ActionMailer::Base.deliveries).to eq []   
       end
     end
   end
 
   describe "GET show" do
-    describe "non user" do
+    context "non user" do
       it_behaves_like "requires sign in" do
         let(:action) { get :show, id: 1 }
       end
     end
 
-    describe "user" do
+    context "user" do
       it "sets user" do
         user = Fabricate(:user)
         set_current_user(user)
         get :show, id: user.id
         expect(assigns[:user]).to eq user
+      end
+    end
+  end
+
+  describe "GET register_with_invitation" do
+    context "valid invitation token" do
+      let(:invitation) { Fabricate(:invitation) }
+      
+      before do
+        get :register_with_invitation, token: invitation.token 
+      end
+      
+      it "render new template" do
+        expect(response).to render_template :new
+      end
+
+      it "sets @user with recipient's email" do
+        expect(assigns[:user].email).to eq invitation.recipient_email
+      end
+      
+      it "sets @token" do
+        expect(assigns[:invitation_token]).to eq invitation.token
+      end
+    end
+
+    context "invalid token" do
+      it "redirects to expired page" do
+        get :register_with_invitation, token: '12345'
+        expect(response).to redirect_to expired_token_path
       end
     end
   end

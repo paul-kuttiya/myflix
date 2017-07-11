@@ -1,0 +1,5 @@
+%html
+  %body
+    %p Invitation to MyFlix
+    %p From: #{@invitation.inviter.full_name}
+    = link_to "Accept", register_with_invitation_url(@invitation.token)

@@ -33,5 +33,22 @@ describe User do
       expect(user.follow?(leader)).to eq true
     end
   end  
+
+  describe "#follow" do
+    it "follows another user" do
+      alice = Fabricate(:user)
+      bob = Fabricate(:user)
+
+      alice.follow(bob)
+      expect(alice.follow?(bob)).to eq true
+    end
+    
+    it "does not follow itself" do
+      alice = Fabricate(:user)
+
+      alice.follow(alice)
+      expect(alice.follow?(alice)).to eq false
+    end
+  end
 end
 
