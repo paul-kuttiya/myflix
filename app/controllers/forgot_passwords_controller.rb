@@ -1,10 +1,10 @@
 class ForgotPasswordsController < ApplicationController
   def create
-    user = User.find_by(email: params[:email])
+    @user = User.find_by(email: params[:email])
 
     if user
-      user.update_column(:token, User.get_token)
-      AppMailer.send_forgot_password(user).deliver
+      @user.update_column(:token, User.get_token)
+      AppMailer.send_forgot_password(@user).deliver
       redirect_to forgot_password_confirmation_path
     else
       flash[:danger] = params[:email].blank? ?  "Invalid inputs!" : "Email does not exist"
