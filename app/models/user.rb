@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include Tokenable
+
   has_many :reviews, -> { order(created_at: :desc) }
   has_many :queue_items, -> { order(list_order: :asc) }
   has_many :following_relationships, class_name: "Relationship", foreign_key: "follower_id"
@@ -33,13 +35,5 @@ class User < ActiveRecord::Base
 
   def self.get_token
     generate_token
-  end
-
-  private
-  def self.generate_token
-    token = loop do
-      random_token = SecureRandom.urlsafe_base64(nil, false)
-      break random_token unless exists?(token: random_token)
-    end
   end
 end

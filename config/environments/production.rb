@@ -21,11 +21,11 @@ Myflix::Application.configure do
   #mailer config
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
+    address:              'smtp-relay.sendinblue.com',
     port:                 587,
-    domain:               'gmail.com',
-    user_name:            'w.kuttie@gmail.com',
-    password:             'Pp053851238',
+    domain:               'https://p-kuttiya-myflix.herokuapp.com/',
+    user_name:            ENV['SEND_IN_BLUE_USERNAME'],
+    password:             ENV['SEND_IN_BLUE_PASSWORD'],
     authentication:       :login,
     enable_starttls_auto: true
   }
