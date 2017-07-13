@@ -15,6 +15,7 @@ gem 'fabrication'
 gem 'faker'
 gem 'figaro'
 gem 'sidekiq', '4.2.10'
+gem 'unicorn'
 
 group :development do
   gem "awesome_print"
