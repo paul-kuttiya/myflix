@@ -17,7 +17,6 @@ gem 'figaro'
 gem 'sidekiq', '4.2.10'
 gem 'unicorn'
 gem "sentry-raven"
-gem 'delayed_job_active_record'
 
 group :development do
   gem "awesome_print"
