@@ -27,7 +27,7 @@ class UsersController < ApplicationController
         handle_invitation
       end
       
-      AppMailer.send_welcome_email(@user).deliver
+      AppMailer.delay.send_welcome_email(@user.id)
       session[:user_id] = @user.id
       flash[:success] = "Welcome to myfix #{@user.full_name}!"
       redirect_to home_path
