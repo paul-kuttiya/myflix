@@ -16,6 +16,7 @@ gem 'faker'
 gem 'figaro'
 gem 'sidekiq', '4.2.10'
 gem 'unicorn'
+gem "sentry-raven"
 
 group :development do
   gem "awesome_print"
