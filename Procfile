@@ -1,2 +1,1 @@
-web: bundle exec rails server -p $PORT
-work: sidekiq
+web: bundle exec unicorn -p $PORT -E $RACK_ENV -c ./config/unicorn.rb
