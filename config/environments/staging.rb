@@ -19,12 +19,12 @@ Myflix::Application.configure do
   config.active_support.deprecation = :notify
 
   #mailer config
-  config.action_mailer.default_url_options = { host: "https://p-kuttiya-myflix.herokuapp.com/" }
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "https://pkuttiya-myflix-staging.herokuapp.com/" }
+  config.action_mailer.delivery_method = :test
   config.action_mailer.smtp_settings = {
     address:              'smtp-relay.sendinblue.com',
     port:                 587,
-    domain:               'https://p-kuttiya-myflix.herokuapp.com/',
+    domain:               'https://pkuttiya-myflix-staging.herokuapp.com/',
     user_name:            ENV['SEND_IN_BLUE_USERNAME'],
     password:             ENV['SEND_IN_BLUE_PASSWORD'],
     authentication:       :login,
