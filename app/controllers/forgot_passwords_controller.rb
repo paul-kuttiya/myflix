@@ -1,4 +1,6 @@
 class ForgotPasswordsController < ApplicationController
+  before_action :send_home
+  
   def create
     user = User.find_by(email: params[:email])
 
