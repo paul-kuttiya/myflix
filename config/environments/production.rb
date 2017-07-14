@@ -31,7 +31,3 @@ Myflix::Application.configure do
     enable_starttls_auto: true
   }
 end
-
-Raven.configure do |config|
-  config.dsn = ENV['RAVEN_DSN']
-end
