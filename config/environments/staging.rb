@@ -20,14 +20,13 @@ Myflix::Application.configure do
 
   #mailer config
   config.action_mailer.default_url_options = { host: "https://pkuttiya-myflix-staging.herokuapp.com/" }
-  config.action_mailer.delivery_method = :test
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp-relay.sendinblue.com',
-    port:                 587,
-    domain:               'https://pkuttiya-myflix-staging.herokuapp.com/',
-    user_name:            ENV['SEND_IN_BLUE_USERNAME'],
-    password:             ENV['SEND_IN_BLUE_PASSWORD'],
-    authentication:       :login,
-    enable_starttls_auto: true
+    address:              'smtp.mailtrap.io',
+    domain:               'smtp.mailtrap.io',
+    port:                 '2525',
+    user_name:            ENV['MAILTRAP_USERNAME'],
+    password:             ENV['MAILTRAP_PASSWORD'],
+    authentication:       :cram_md5,
   }
 end
