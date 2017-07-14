@@ -15,7 +15,8 @@ deployment:
     commands:
       - heroku maintenance:on --app pkuttiya-myflix-staging
       - git push git@heroku.com:pkuttiya-myflix-staging.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run rake db:migrate --app pkuttiya-myflix-staging
+      - heroku restart --app pkuttiya-myflix-staging
+      - heroku run rake db:reset --app pkuttiya-myflix-staging
       - heroku maintenance:off --app pkuttiya-myflix-staging
 dependencies:
   pre:
