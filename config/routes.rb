@@ -21,6 +21,10 @@ Myflix::Application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
+  
   resources :categories, param: :name,  only: [:show]
 
   get "/my_queue", to: "queue_items#index"
