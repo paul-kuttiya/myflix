@@ -24,17 +24,25 @@ end
 #   )
 # end
 
+def image_path(file)
+  Rails.root.join("app/assets/images/#{file}").open
+end
+
+image_path = Rails.root.join("app/assets/images/monk.jpg").open
+
 20.times do
   Fabricate(:video, 
-  category: Category.all.sample, 
-  small_cover: "/tmp/monk.jpg", 
-  large_cover: "/tmp/monk_large.jpg")
+    category: Category.all.sample, 
+    small_cover: image_path("monk.jpg"), 
+    large_cover: image_path("monk_large.jpg")
+  )
 end
 
 User.create(
   full_name: 'admin',
   email: 'admin@email.com',
-  password: 'admin'
+  password: 'admin',
+  admin: true
 )
 
 # 20.times do
