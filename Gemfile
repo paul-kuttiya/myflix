@@ -16,6 +16,8 @@ gem 'faker'
 gem 'figaro'
 gem 'sidekiq', '4.2.10'
 gem "sentry-raven"
+gem 'carrierwave'
+gem 'mini_magick'
 
 group :development do
   gem "awesome_print"
@@ -49,5 +51,6 @@ group :development, :staging, :production do
 end
 
 group :staging, :production do
+  gem 'carrierwave-aws'
   gem 'rails_12factor'
 end

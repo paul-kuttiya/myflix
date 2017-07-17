@@ -21,6 +21,10 @@ Myflix::Application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
+  
   resources :categories, param: :name,  only: [:show]
 
   get "/my_queue", to: "queue_items#index"
@@ -37,7 +41,7 @@ Myflix::Application.routes.draw do
 
   resources :password_resets, only: [:show, :create]
 
-  get "/expired_token", to: "page#expired_token"
+  get "/expired_token", to: "pages#expired_token"
 
   resources :invitations, only: [:new, :create]
 end

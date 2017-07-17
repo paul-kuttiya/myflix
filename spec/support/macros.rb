@@ -1,6 +1,9 @@
 def set_current_user(user=nil)
   session[:user_id] = (user || Fabricate(:user)).id
-  session[:user_id]
+end
+
+def set_current_admin(admin=nil)
+  session[:user_id] = (admin || Fabricate(:admin)).id
 end
 
 def sign_in(a_user=nil)
