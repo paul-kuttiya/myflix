@@ -9,7 +9,7 @@ deployment:
       - heroku pg:backups capture --app p-kuttiya-myflix
       - git push git@heroku.com:p-kuttiya-myflix.git $CIRCLE_SHA1:refs/heads/master
       - heroku run rake db:migrate --app p-kuttiya-myflix
-      - heroku run rake db:seed --app p-kuttiya-myflix
+      - heroku run rake db:reset --app p-kuttiya-myflix
       - heroku maintenance:off --app p-kuttiya-myflix
   staging:
     branch: staging
@@ -18,7 +18,7 @@ deployment:
       - git push git@heroku.com:pkuttiya-myflix-staging.git $CIRCLE_SHA1:refs/heads/master
       - heroku restart --app pkuttiya-myflix-staging
       - heroku run rake db:migrate --app pkuttiya-myflix-staging
-      - heroku run rake db:seed --app pkuttiya-myflix-staging
+      - heroku run rake db:reset --app pkuttiya-myflix-staging
       - heroku maintenance:off --app pkuttiya-myflix-staging
 dependencies:
   pre:

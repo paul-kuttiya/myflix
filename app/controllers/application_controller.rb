@@ -17,4 +17,11 @@ class ApplicationController < ActionController::Base
       redirect_to sign_in_path
     end
   end
+
+  def require_admin
+    unless current_user.admin?
+      redirect_to root_path
+      flash[:danger] = "Admin only!"
+    end
+  end
 end
