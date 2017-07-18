@@ -9,5 +9,13 @@
           = f.password_field :password, label: "Password"
           = hidden_field_tag :invitation_token, "#{@invitation_token}"
           = f.text_field :full_name, label: "Full Name"
-          = f.form_group label_col: "col-sm-offset-2" do
-            = f.submit "Sign Up", class: "btn btn-default" 
+          <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="#{ENV['STRIPE_PUBLISHABLE_KEY']}"
+          data-amount="999"
+          data-name="MyFlix"
+          data-description="Widget"
+          data-locale="auto">
+          </script>
+          -# = f.form_group label_col: "col-sm-offset-2" do
+          -#   = f.submit "Sign Up", class: "btn btn-default" 

@@ -12,12 +12,12 @@ gem 'pg', '0.20'
 gem 'bootstrap_form'
 gem 'bcrypt'
 gem 'fabrication'
-gem 'faker'
-gem 'figaro'
 gem 'sidekiq', '4.2.10'
-gem "sentry-raven"
+gem 'faker'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'stripe'
+gem 'figaro'
 
 group :development do
   gem "awesome_print"
@@ -53,4 +53,5 @@ end
 group :staging, :production do
   gem 'carrierwave-aws'
   gem 'rails_12factor'
+  gem "sentry-raven"
 end
