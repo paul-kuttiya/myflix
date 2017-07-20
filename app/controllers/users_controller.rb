@@ -29,10 +29,10 @@ class UsersController < ApplicationController
 
       # binding.pry
       Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+      # StripeWrapper::Charge.create(amount: 999, )
       begin
-        Stripe::Charge.create(
+        StripeWrapper::Charge.create(
           :amount => 999,
-          :currency => "usd",
           :source => params[:stripeToken],
           :description => "Charge for #{@user.email}"
         )

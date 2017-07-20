@@ -11,7 +11,8 @@
       label_col: "control-label col-sm-2", control_col: "col-sm-6", html: { id: "payment-form" }) do |f|
         %header
           %h1 Register
-          %small.alert-danger Actual payment will not be charged!
+          %p Actual payment will not be charged!
+          %br
         = f.email_field :email, label: "Email Address"
         = f.password_field :password, label: "Password"
         = hidden_field_tag :invitation_token, "#{@invitation_token}"
@@ -21,11 +22,11 @@
           .form-group
             %label.control-label.col-sm-2(for="credit_card_number") Credit Card Number
             .col-sm-6
-              %input.form-control#credit_card_number(type="text" data-stripe="number", placeholder="4242 4242 4242 4242")
+              %input.form-control#credit_card_number(type="text" data-stripe="number")
           .form-group
             %label.control-label.col-sm-2(for="ccv") Security Code
             .col-sm-6
-              %input.form-control#ccv(type="text" data-stripe="ccv", placeholder="123")
+              %input.form-control#ccv(type="text" data-stripe="ccv")
           .form-group
             %label.control-label.col-sm-2 Expiration
             .col-sm-3

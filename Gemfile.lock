@@ -247,7 +247,7 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
-    vcr (2.9.3)
+    vcr (3.0.3)
     webmock (3.0.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -296,7 +296,7 @@ DEPENDENCIES
   stripe
   thin
   uglifier
-  vcr (= 2.9.3)
+  vcr (= 3.0.3)
   webmock
 
 RUBY VERSION

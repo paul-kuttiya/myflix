@@ -15,6 +15,7 @@ describe UsersController do
   describe "POST create" do
     context "valid users" do
       before do
+        allow(StripeWrapper::Charge).to receive(:create)
         post :create, user: {full_name: 'abc', email: 'abc@gg.com', password: '1234'}
       end
 
@@ -29,6 +30,7 @@ describe UsersController do
         inviter: inviter) }
 
         before do
+          allow(StripeWrapper::Charge).to receive(:create)
           post :create, 
           user: {email: 'joe@example.com', password: 'password', full_name: 'joe dow'}, 
           invitation_token: invitation.token
@@ -87,6 +89,10 @@ describe UsersController do
     end
 
     context "sending emails" do
+      before do
+        allow(StripeWrapper::Charge).to receive(:create)
+      end
+      
       it "sends email to the user with valid input" do
         user = Fabricate.attributes_for(:user)
         post :create, user: user
