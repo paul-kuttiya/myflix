@@ -13,10 +13,12 @@ describe UsersController do
   end
 
   describe "POST create" do
-    context "valid users" do
+    context "valid users info and valid card" do
+      let(:charge) { double(:charge, successful?: true) }
+      
       before do
-        allow(StripeWrapper::Charge).to receive(:create)
-        post :create, user: {full_name: 'abc', email: 'abc@gg.com', password: '1234'}
+        expect(StripeWrapper::Charge).to receive(:create) { charge }
+        post :create, user: Fabricate.attributes_for(:user), stripeToken: '1234'
       end
 
       it "saves user" do
@@ -24,15 +26,17 @@ describe UsersController do
       end
 
       context "invited user" do
+        let(:charge) { double(:charge, successful?: true) }
         let(:inviter) { Fabricate(:user) }
         let(:invitation) { Fabricate(:invitation, 
         recipient_email: 'joe@example.com', 
         inviter: inviter) }
 
         before do
-          allow(StripeWrapper::Charge).to receive(:create)
+          expect(StripeWrapper::Charge).to receive(:create) { charge }
           post :create, 
-          user: {email: 'joe@example.com', password: 'password', full_name: 'joe dow'}, 
+          user: {email: 'joe@example.com', password: 'password', full_name: 'joe dow'},
+          stripeToken: 1234, 
           invitation_token: invitation.token
         end
 
@@ -64,8 +68,35 @@ describe UsersController do
         expect(response).to redirect_to home_path
       end
     end
-  
-    context "invalid users" do
+    
+    context "valid user info and decline card" do
+      let(:charge) do
+        double(:charge, 
+        successful?: false,
+        error_message: "Your card is decline!"
+        )
+      end
+      
+      before do
+        expect(StripeWrapper::Charge).to receive(:create) { charge }
+
+        post :create, user: Fabricate.attributes_for(:user), stripeToken: 1234
+      end
+
+      it "does not create a new user" do
+        expect(User.count).to eq 0
+      end
+      
+      it "renders the new template" do
+        expect(response).to render_template :new
+      end
+      
+      it "sets the flash error message" do
+        expect(flash[:danger]).to be_present
+      end
+    end
+
+    context "invalid users info" do
       before do
         post :create, user: {email: 'abc@gg.com', password: '1234'}
       end
@@ -86,28 +117,34 @@ describe UsersController do
         errors = assigns[:user].errors.full_messages.length
         expect(errors).not_to be(0)
       end
+
+      it "does not send email with invalid inputs" do
+        post :create, user: { email: 'abc@gmail.com' }, stripeToken: 1234
+        expect(ActionMailer::Base.deliveries).to eq []   
+      end
+
+      it "does not charge the card" do
+        expect(StripeWrapper::Charge).not_to receive(:create)
+      end
     end
 
     context "sending emails" do
+      let(:charge) { double(:charge, successful?: true) }
+
       before do
-        allow(StripeWrapper::Charge).to receive(:create)
+        expect(StripeWrapper::Charge).to receive(:create) { charge }
       end
       
       it "sends email to the user with valid input" do
         user = Fabricate.attributes_for(:user)
-        post :create, user: user
+        post :create, user: user, stripeToken: 1234
         expect(ActionMailer::Base.deliveries.last.to).to eq [user["email"]]
       end
 
       it "sends eamil to valid input user with user full name" do
         user = Fabricate.attributes_for(:user)
-        post :create, user: user
+        post :create, user: user, stripeToken: 1234
         expect(ActionMailer::Base.deliveries.last.body).to include user["full_name"]
-      end
-
-      it "does not send email with invalid inputs" do
-        post :create, user: { email: 'abc@gmail.com' }
-        expect(ActionMailer::Base.deliveries).to eq []   
       end
     end
   end

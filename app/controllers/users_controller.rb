@@ -22,28 +22,24 @@ class UsersController < ApplicationController
     @user = User.new(create_user)
     @invitation = Invitation.find_by(token: params[:invitation_token])
 
-    if @user.save
-      if @invitation
-        handle_invitation
-      end
-
-      # binding.pry
+    if @user.valid?
       Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-      # StripeWrapper::Charge.create(amount: 999, )
-      begin
-        StripeWrapper::Charge.create(
-          :amount => 999,
-          :source => params[:stripeToken],
-          :description => "Charge for #{@user.email}"
-        )
-      rescue Stripe::CardError => e
-        flash[:danger] = e.message
-      end
+      
+      charge = StripeWrapper::Charge.create(
+        :amount => 999,
+        :source => params[:stripeToken],
+        :description => "Charge for #{@user.email}"
+      )
 
-      AppMailer.delay.send_welcome_email(@user.id)
-      session[:user_id] = @user.id
-      flash[:success] = "Welcome to myfix #{@user.full_name}!"
-      redirect_to home_path
+      if charge.successful?
+        @user.save
+        AppMailer.delay.send_welcome_email(@user.id)
+        handle_invitation if @invitation
+        log_in
+      else
+        flash[:danger] = charge.error_message
+        render :new
+      end
     else
       render :new
     end
@@ -63,5 +59,11 @@ class UsersController < ApplicationController
     @user.follow(inviter)
     inviter.follow(@user)
     @invitation.update_column(:token, nil)
+  end
+
+  def log_in
+    session[:user_id] = @user.id
+    flash[:success] = "Welcome to myfix #{@user.full_name}!"
+    redirect_to home_path
   end
 end
