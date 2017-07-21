@@ -23,8 +23,6 @@ class UsersController < ApplicationController
     @invitation = Invitation.find_by(token: params[:invitation_token])
 
     if @user.valid?
-      Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-      
       charge = StripeWrapper::Charge.create(
         :amount => 999,
         :source => params[:stripeToken],
@@ -41,6 +39,7 @@ class UsersController < ApplicationController
         render :new
       end
     else
+      flash[:danger] = "Invalid user info please check the errors"
       render :new
     end
   end
