@@ -8,9 +8,9 @@
           %h3= @video.title
           %br
           - if @video.average_ratings.present?
-            %h4= @video.average_ratings
+            %h4 Ratings: #{@video.average_ratings} / 5.0
           - else
-            %h4 "No Reviews"
+            %h4 No Reviews
         %p= @video.description
         .actions
           = link_to "Watch Now", @video.video_url, class: "btn btn-primary"
