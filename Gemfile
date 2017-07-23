@@ -18,6 +18,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'stripe'
 gem 'figaro'
+gem 'draper'
 
 group :development do
   gem "awesome_print"
@@ -26,7 +27,6 @@ group :development do
   gem 'foreman'
   gem 'letter_opener'
   gem 'thin'
-  gem 'draper'
 end
 
 group :development, :test do

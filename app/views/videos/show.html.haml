@@ -7,6 +7,7 @@
         %header
           %h3= @video.title
           %br
+          %h3= @video.rating
           - if @video.average_ratings.present?
             %h4 Ratings: #{@video.average_ratings} / 5.0
           - else
