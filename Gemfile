@@ -26,6 +26,7 @@ group :development do
   gem 'foreman'
   gem 'letter_opener'
   gem 'thin'
+  gem 'draper'
 end
 
 group :development, :test do
