@@ -38,7 +38,7 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-email'
-  gem 'chromedriver-helper' unless ENV.key?('CIRCLECI')
+  gem 'chromedriver-helper'
   gem 'database_cleaner', '1.4.1'
   gem 'launchy'
   gem 'selenium-webdriver'
