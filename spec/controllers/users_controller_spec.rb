@@ -13,43 +13,15 @@ describe UsersController do
   end
 
   describe "POST create" do
-    context "valid users" do
+    context "user successfully sign up" do
+      let(:result) { double(:result, successful?: true, user: Fabricate(:user))}
+
       before do
-        post :create, user: {full_name: 'abc', email: 'abc@gg.com', password: '1234'}
+        allow_any_instance_of(UserSignup).to receive(:signup) { result }
+        post :create, 
+        user: Fabricate.attributes_for(:user)
       end
 
-      it "saves user" do
-        expect(User.count).to eq(1)
-      end
-
-      context "invited user" do
-        let(:inviter) { Fabricate(:user) }
-        let(:invitation) { Fabricate(:invitation, 
-        recipient_email: 'joe@example.com', 
-        inviter: inviter) }
-
-        before do
-          post :create, 
-          user: {email: 'joe@example.com', password: 'password', full_name: 'joe dow'}, 
-          invitation_token: invitation.token
-        end
-
-        it "sets invited user to follow inviter" do
-          invited_user = User.find_by(email: 'joe@example.com')
-          expect(invited_user.follow?(inviter)).to eq true
-        end
-      
-        it "sets inviter to follow invited user" do
-          invited_user = User.find_by(email: 'joe@example.com')
-          expect(inviter.follow?(invited_user)).to eq true
-        end
-        
-        it "deletes token" do
-          invitation.reload
-          expect(invitation.token).to be_nil
-        end
-      end
-    
       it "stored user in session" do
         expect(session[:user_id]).not_to be_nil
       end
@@ -62,46 +34,26 @@ describe UsersController do
         expect(response).to redirect_to home_path
       end
     end
-  
-    context "invalid users" do
+    
+    context "failed user sign up" do
+      let(:result) do 
+        double(:result, 
+        successful?: false, 
+        error_message: "Your card is decline!")
+      end
+
       before do
-        post :create, user: {email: 'abc@gg.com', password: '1234'}
+        allow_any_instance_of(UserSignup).to receive(:signup) { result }
+        post :create, 
+        user: Fabricate.attributes_for(:user)
       end
 
-      it "sets user" do
-        expect(assigns[:user]).to be_instance_of(User)
-      end
-
-      it "does not create user" do
-        expect(User.count).to be(0)
-      end
-
-      it "render new template" do
+      it "renders the new template" do
         expect(response).to render_template :new
       end
       
-      it "shows error" do
-        errors = assigns[:user].errors.full_messages.length
-        expect(errors).not_to be(0)
-      end
-    end
-
-    context "sending emails" do
-      it "sends email to the user with valid input" do
-        user = Fabricate.attributes_for(:user)
-        post :create, user: user
-        expect(ActionMailer::Base.deliveries.last.to).to eq [user["email"]]
-      end
-
-      it "sends eamil to valid input user with user full name" do
-        user = Fabricate.attributes_for(:user)
-        post :create, user: user
-        expect(ActionMailer::Base.deliveries.last.body).to include user["full_name"]
-      end
-
-      it "does not send email with invalid inputs" do
-        post :create, user: { email: 'abc@gmail.com' }
-        expect(ActionMailer::Base.deliveries).to eq []   
+      it "sets the flash error message" do
+        expect(flash[:danger]).to be_present
       end
     end
   end

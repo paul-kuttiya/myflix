@@ -6,8 +6,8 @@ class VideosController < ApplicationController
   end
 
   def show
-    @video = Video.find(params[:id])
-    @review = Review.new #need for review form, showing errors
+    @video = VideoDecorator.decorate(Video.find(params[:id]))
+    @review = Review.new
   end
 
   def search
