@@ -21,10 +21,5 @@ deployment:
       - heroku run rake db:reset --app pkuttiya-myflix-staging
       - heroku maintenance:off --app pkuttiya-myflix-staging
 dependencies:
-  override:
-    #new chromedriver
-    - wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
-    - unzip chromedriver_linux64.zip
-    - sudo cp chromedriver /usr/local/bin/chromedriver
   pre:
     - gem install bundler
