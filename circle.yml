@@ -1,12 +1,6 @@
 machine:
   ruby:
     version: 2.2.7
-test:
-  pre:
-    - wget http://chromedriver.storage.googleapis.com/2.22/chromedriver_linux32.zip
-    - unzip chromedriver_linux32.zip
-    - ./chromedriver --port=4444 --url-base=we/hub:
-        background: true
 deployment:
   production:
     branch: master
@@ -27,5 +21,10 @@ deployment:
       - heroku run rake db:reset --app pkuttiya-myflix-staging
       - heroku maintenance:off --app pkuttiya-myflix-staging
 dependencies:
+  override:
+    #new chromedriver
+    - wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
+    - unzip chromedriver_linux64.zip
+    - sudo cp chromedriver /usr/local/bin/chromedriver
   pre:
     - gem install bundler
