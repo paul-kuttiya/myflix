@@ -29,3 +29,4 @@ dependencies:
     - sudo apt-get --only-upgrade install google-chrome-stable
   pre:
     - gem install bundler
+    - bundle install
