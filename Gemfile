@@ -45,6 +45,7 @@ group :test do
   gem 'shoulda-matchers', '2.7.0'
   gem 'vcr', '3.0.3'
   gem 'webmock'
+  gem 'capybara-webkit'
 end
 
 group :development, :staging, :production do

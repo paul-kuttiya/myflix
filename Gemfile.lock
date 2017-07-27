@@ -62,6 +62,9 @@ GEM
     capybara-email (2.5.0)
       capybara (~> 2.4)
       mail
+    capybara-webkit (1.1.0)
+      capybara (~> 2.0, >= 2.0.2)
+      json
     carrierwave (1.1.0)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
@@ -273,6 +276,7 @@ DEPENDENCIES
   bootstrap_form
   capybara
   capybara-email
+  capybara-webkit
   carrierwave
   carrierwave-aws
   chromedriver-helper
