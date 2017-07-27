@@ -30,11 +30,13 @@ end
 
 image_path = Rails.root.join("app/assets/images/monk.jpg").open
 
+images = ['family_guy', 'futurama', 'monk']
+
 20.times do
   Fabricate(:video, 
     video_url: "https://www.youtube.com/watch?v=mxhxL1LzKww",
     category: Category.all.sample, 
-    small_cover: image_path("monk.jpg"), 
+    small_cover: image_path("#{images.sample}.jpg"), 
     large_cover: image_path("monk_large.jpg")
   )
 end
