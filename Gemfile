@@ -14,8 +14,8 @@ gem 'bcrypt'
 gem 'fabrication'
 gem 'sidekiq', '4.2.10'
 gem 'faker'
-# gem 'carrierwave'
-# gem 'mini_magick'
+gem 'carrierwave'
+gem 'mini_magick'
 gem 'stripe'
 gem 'figaro'
 gem 'draper'
@@ -27,6 +27,9 @@ group :development do
   gem 'foreman'
   gem 'letter_opener'
   gem 'thin'
+  gem 'guard'
+  gem "rack-livereload"
+  gem 'guard-livereload'
 end
 
 group :development, :test do

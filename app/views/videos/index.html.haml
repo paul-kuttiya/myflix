@@ -4,6 +4,6 @@
       %h3= link_to "TV #{title(cat.name)}", category_path(cat)
     .videos.row
       - cat.recent_videos.each do |video|
-        .video.col-sm-2
+        .video.col-lg-2.col-md-3.col-sm-3
           = link_to video_path(video) do
             %img(src="#{video.small_cover}")
