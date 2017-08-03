@@ -21,17 +21,13 @@ class UsersController < ApplicationController
   def create
     @user = User.new(create_user)
     @invitation = Invitation.find_by(token: params[:invitation_token])
+    
+    result = UserSignup.new(@user).signup(@invitation, params[:stripeToken])
 
-    if @user.save
-      if @invitation
-        handle_invitation
-      end
-      
-      AppMailer.delay.send_welcome_email(@user.id)
-      session[:user_id] = @user.id
-      flash[:success] = "Welcome to myfix #{@user.full_name}!"
-      redirect_to home_path
+    if result.successful?
+      log_in(result.user)
     else
+      flash[:danger] = result.error_message
       render :new
     end
   end
@@ -45,10 +41,9 @@ class UsersController < ApplicationController
     params.require(:user).permit!
   end
 
-  def handle_invitation
-    inviter = @invitation.inviter
-    @user.follow(inviter)
-    inviter.follow(@user)
-    @invitation.update_column(:token, nil)
+  def log_in(user)
+    session[:user_id] = user.id
+    flash[:success] = "Welcome to myfix #{user.full_name}!"
+    redirect_to home_path
   end
 end

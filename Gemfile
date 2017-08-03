@@ -8,16 +8,17 @@ gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'pg', '0.20' 
+gem 'pg', '0.20'
 gem 'bootstrap_form'
 gem 'bcrypt'
 gem 'fabrication'
-gem 'faker'
-gem 'figaro'
 gem 'sidekiq', '4.2.10'
-gem "sentry-raven"
+gem 'faker'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'stripe'
+gem 'figaro'
+gem 'draper'
 
 group :development do
   gem "awesome_print"
@@ -26,6 +27,9 @@ group :development do
   gem 'foreman'
   gem 'letter_opener'
   gem 'thin'
+  gem 'guard'
+  gem "rack-livereload"
+  gem 'guard-livereload'
 end
 
 group :development, :test do
@@ -42,8 +46,9 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '2.7.0'
-  gem 'vcr', '2.9.3'
+  gem 'vcr', '3.0.3'
   gem 'webmock'
+  gem 'capybara-webkit'
 end
 
 group :development, :staging, :production do
@@ -53,4 +58,5 @@ end
 group :staging, :production do
   gem 'carrierwave-aws'
   gem 'rails_12factor'
+  gem "sentry-raven"
 end

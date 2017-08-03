@@ -20,6 +20,8 @@ module Myflix
   end
 end
 
-Raven.configure do |config|
-  config.dsn = 'https://a7e16289cceb430683b87d8c3303197c:9fe95bcaef4045f98de81f941ec79edd@sentry.io/191394'
+if Rails.env.staging? || Rails.env.production?
+  Raven.configure do |config|
+    config.dsn = 'https://a7e16289cceb430683b87d8c3303197c:9fe95bcaef4045f98de81f941ec79edd@sentry.io/191394'
+  end
 end

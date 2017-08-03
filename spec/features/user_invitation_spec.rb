@@ -1,5 +1,5 @@
 feature "Invite to sign up" do
-  scenario "Successfully invites a friend and invitation is accepted" do
+  scenario "Successfully invites a friend and invitation is accepted", {vcr: true, js: true} do
     user = Fabricate(:user)
     sign_in(user)
 
@@ -31,6 +31,10 @@ feature "Invite to sign up" do
     current_email.click_link "Accept"
     fill_in "Full Name", with: "Joe Doe"
     fill_in "Password", with: "password"
+    fill_in "Credit Card", with: "4242424242424242"
+    fill_in "Security Code", with: "123"
+    select "7 - July", from: "date_month"
+    select "#{Date.today.year + 2}", from: "date_year"    
     click_button "Sign Up"
   end
 end

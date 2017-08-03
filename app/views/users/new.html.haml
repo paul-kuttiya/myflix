@@ -1,13 +1,37 @@
+%script(type="text/javascript" src="https://js.stripe.com/v2/")
+:javascript
+  Stripe.setPublishableKey("#{ENV['STRIPE_PUBLISHABLE_KEY']}");
+
+= javascript_include_tag 'payment'
+
 %section.register.container
   .row
     .col-sm-10.col-sm-offset-1
       = bootstrap_form_for(@user, layout: :horizontal, | 
-      label_col: "control-label col-sm-2", control_col: "col-sm-6") do |f|
+      label_col: "control-label col-sm-2", control_col: "col-sm-6", html: { id: "payment-form" }) do |f|
         %header
           %h1 Register
-          = f.email_field :email, label: "Email Address"
-          = f.password_field :password, label: "Password"
-          = hidden_field_tag :invitation_token, "#{@invitation_token}"
-          = f.text_field :full_name, label: "Full Name"
-          = f.form_group label_col: "col-sm-offset-2" do
-            = f.submit "Sign Up", class: "btn btn-default" 
+          %p Actual payment will not be charged!
+          %br
+        = f.email_field :email, label: "Email Address"
+        = f.password_field :password, label: "Password"
+        = hidden_field_tag :invitation_token, "#{@invitation_token}"
+        = f.text_field :full_name, label: "Full Name"
+        %fieldset.credit_card
+          %span.payment-errors
+          .form-group
+            %label.control-label.col-sm-2(for="credit_card_number") Credit Card Number
+            .col-sm-6
+              %input.form-control#credit_card_number(type="text" placeholder="4242424242424242" data-stripe="number")
+          .form-group
+            %label.control-label.col-sm-2(for="ccv") Security Code
+            .col-sm-6
+              %input.form-control#ccv(type="text" placeholder="123" data-stripe="ccv")
+          .form-group
+            %label.control-label.col-sm-2 Expiration
+            .col-sm-3
+              = select_month(Date.today + 31, {add_month_numbers: true}, class: 'form-control', data: {stripe: 'exp_month'})
+            .col-sm-2
+              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, class: 'form-control', data: {stripe: 'exp_year'})
+        = f.form_group label_col: "col-sm-offset-2" do
+          = f.submit "Sign Up", name: nil, class: "btn btn-success"   

@@ -21,3 +21,22 @@ end
 def click_on_video_on_home_page(video)
   find("a[href='/videos/#{video.id}']").click
 end
+
+def stripe_create_token(card_number)
+  Stripe::Token.create(
+    card: {
+      number: card_number,
+      exp_month: 6,
+      exp_year: Date.today.year + 1,
+      cvc: 123
+    }
+  ).id
+end
+
+def stripe_wrapper_response(token)
+  StripeWrapper::Charge.create(
+    :amount => 999,
+    :source => token,
+    :description => "stripe charge"
+  )
+end
