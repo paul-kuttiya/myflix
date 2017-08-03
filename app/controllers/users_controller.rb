@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(create_user)
     @invitation = Invitation.find_by(token: params[:invitation_token])
-
+    
     result = UserSignup.new(@user).signup(@invitation, params[:stripeToken])
 
     if result.successful?

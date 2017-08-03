@@ -9,7 +9,7 @@ class UserSignup
     if @user.valid?
       charge = StripeWrapper::Charge.create(
         :amount => 999,
-        :source => @stripe_token,
+        :source => stripe_token,
         :description => "Charge for #{@user.email}"
       )
 

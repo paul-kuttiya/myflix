@@ -8,7 +8,7 @@ gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'pg', '0.20' 
+gem 'pg', '0.20'
 gem 'bootstrap_form'
 gem 'bcrypt'
 gem 'fabrication'
@@ -27,6 +27,9 @@ group :development do
   gem 'foreman'
   gem 'letter_opener'
   gem 'thin'
+  gem 'guard'
+  gem "rack-livereload"
+  gem 'guard-livereload'
 end
 
 group :development, :test do
@@ -45,6 +48,7 @@ group :test do
   gem 'shoulda-matchers', '2.7.0'
   gem 'vcr', '3.0.3'
   gem 'webmock'
+  gem 'capybara-webkit'
 end
 
 group :development, :staging, :production do

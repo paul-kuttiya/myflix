@@ -22,15 +22,15 @@
           .form-group
             %label.control-label.col-sm-2(for="credit_card_number") Credit Card Number
             .col-sm-6
-              %input.form-control#credit_card_number(type="text" data-stripe="number")
+              %input.form-control#credit_card_number(type="text" placeholder="4242424242424242" data-stripe="number")
           .form-group
             %label.control-label.col-sm-2(for="ccv") Security Code
             .col-sm-6
-              %input.form-control#ccv(type="text" data-stripe="ccv")
+              %input.form-control#ccv(type="text" placeholder="123" data-stripe="ccv")
           .form-group
             %label.control-label.col-sm-2 Expiration
             .col-sm-3
-              = select_month(Date.today, {add_month_numbers: true}, class: 'form-control', data: {stripe: 'exp_month'})
+              = select_month(Date.today + 31, {add_month_numbers: true}, class: 'form-control', data: {stripe: 'exp_month'})
             .col-sm-2
               = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, class: 'form-control', data: {stripe: 'exp_year'})
         = f.form_group label_col: "col-sm-offset-2" do

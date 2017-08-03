@@ -2,6 +2,10 @@ article.video
   background-color: #F7F7F7
   padding: 30px
   margin: 0 0 30px
+  .video_large_cover
+    img
+      width: 100%
+      padding: 0.5em
   .video_info
     margin-left: 30px
     header
@@ -13,11 +17,11 @@ article.video
         font-size: 20px
     p
       margin-bottom: 20px
-    .actions
-      a
-        margin-right: 20px
 
 section.reviews
+  color: white
+  input.btn
+    color: black
   form
     margin-bottom: 30px
   ul
@@ -31,3 +35,8 @@ section.reviews
           font-size: 14px
         &:last-of-type
           border-bottom: none
+
+@media screen and (max-width: 415px)
+  .video
+    display: inline-block
+    width: 47.5%
