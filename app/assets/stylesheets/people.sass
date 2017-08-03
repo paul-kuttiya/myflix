@@ -1,18 +1,20 @@
 section.people
   width: 100%
-  padding: 20px
   margin: 0 auto
   
   article
     background-color: #F7F7F7
-    padding: 0.5em
+    padding: 2em 1em
   header
+    margin-bottom: 30px
     h2
       font-size: 24px
-    margin-bottom: 30px
 
   table
     margin: 0 auto
+    tbody
+      tr
+        vertical-align: top
     tbody, thead
       tr
         th, td
@@ -21,7 +23,20 @@ section.people
         td
           img
             margin-right: 10px
+            width: 40px
+            height: 40px
           &.extra-padding
             padding-top: 18px
         td:first-of-type
-          text-align: left    
+          text-align: left
+
+@media screen and (max-width: 415px)
+  section.people
+    table
+      a
+        display: block
+
+@media screen and (max-width: 321px)
+  section.people
+    article
+        padding: 2em 5px
